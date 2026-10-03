@@ -2,5 +2,3 @@
 Custom Keyboard Firmware
 
 # What is this project?
-
-# Test autosync
