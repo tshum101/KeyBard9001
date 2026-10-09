@@ -1,0 +1,13 @@
+{
+    "cmake.sourceDirectory": "C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles",
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.profiles.windows": {
+        "Git Bash": {
+            "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+            "args": [
+                "--login",
+                "-i"
+            ]
+        }
+    }
+}
