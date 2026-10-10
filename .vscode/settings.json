@@ -1,6 +1,16 @@
 {
+    "stm32cube-ide-clangd.path": "cube",
+    "stm32cube-ide-clangd.arguments": [
+        "starm-clangd",
+        "--query-driver=C:/ST/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc.exe",
+        "--query-driver=C:/ST/STM32CubeCLT_1.22.0/GNU-tools-for-STM32/bin/arm-none-eabi-g++.exe",
+        "--compile-commands-dir=${workspaceFolder}/00_DesignFiles/build/Debug"
+    ],
     "cmake.sourceDirectory": "C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles",
     "C_Cpp.default.compileCommands": "${workspaceFolder}/00_DesignFiles/build/Debug/compile_commands.json",
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/00_DesignFiles/build/Debug"
+    ],
     "terminal.integrated.defaultProfile.windows": "Git Bash",
     "terminal.integrated.profiles.windows": {
         "Git Bash": {

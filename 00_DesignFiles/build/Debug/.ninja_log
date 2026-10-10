@@ -9,7 +9,7 @@
 110	1346	8132548230199700	CMakeFiles/STM32F407VGT6.dir/App/btn1_dbg.c.obj	720cd751510b4ca1
 167	1378	8132567157075430	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c.obj	9a1f3c9174e4c1d8
 153	1391	8132567156934992	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c.obj	e6a7deb99aa4df46
-48	1364	8132567155844851	CMakeFiles/STM32F407VGT6.dir/Core/Src/main.c.obj	b45717015b1f53d5
+8	439	8133035199660655	CMakeFiles/STM32F407VGT6.dir/Core/Src/main.c.obj	b45717015b1f53d5
 20	1405	8132567155529844	CMakeFiles/STM32F407VGT6.dir/USB_DEVICE/Target/usbd_conf.c.obj	5b82c4ea35aea169
 39	1475	8132567155795117	CMakeFiles/STM32F407VGT6.dir/USB_DEVICE/App/usbd_desc.c.obj	a6801346af039a16
 691	2021	8132567162330902	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c.obj	c7446c25e807c8c9
@@ -37,13 +37,9 @@
 2656	3798	8132567181979335	cmake/stm32cubemx/CMakeFiles/USB_Device_Library.dir/__/__/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c.obj	ecf5f422071b3fb4
 2546	3888	8132567180873416	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c.obj	540e520738f94243
 2449	3901	8132567179906326	cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir/__/__/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c.obj	82d13612403f04de
-3901	4314	8132567194424203	STM32F407VGT6.elf	797575e66621a8a6
-11	290	8133029232243934	build.ninja	2f6c26e4c1752af4
-11	290	8133029231960524	C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/build/Debug/cmake_install.cmake	2f6c26e4c1752af4
-11	290	8133029231986092	C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/build/Debug/cmake/stm32cubemx/cmake_install.cmake	2f6c26e4c1752af4
+439	854	8133035204051871	STM32F407VGT6.elf	797575e66621a8a6
+11	290	8133055976544791	build.ninja	2f6c26e4c1752af4
+11	290	8133055976191612	C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/build/Debug/cmake_install.cmake	2f6c26e4c1752af4
+11	290	8133055976362412	C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/build/Debug/cmake/stm32cubemx/cmake_install.cmake	2f6c26e4c1752af4
 128	1183	8132567156699443	CMakeFiles/STM32F407VGT6.dir/App/dbg.c.obj	b60ade56a16b5598
 116	1496	8132567156576740	CMakeFiles/STM32F407VGT6.dir/App/button.c.obj	845742d64dc8879e
-25	799	8133029996636232	CMakeFiles/STM32F407VGT6.dir/Core/Src/main.c.obj	b45717015b1f53d5
-800	1935	8133030004358830	STM32F407VGT6.elf	797575e66621a8a6
-8	439	8133035199660655	CMakeFiles/STM32F407VGT6.dir/Core/Src/main.c.obj	b45717015b1f53d5
-439	854	8133035204051871	STM32F407VGT6.elf	797575e66621a8a6
