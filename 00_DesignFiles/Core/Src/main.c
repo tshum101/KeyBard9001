@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "button.h"
+#include "dbg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +54,14 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+static Button btn1 =
+{
+  .GPIO_PORT = BTN1_GPIO_Port,
+  .GPIO_PIN = BTN1_Pin,
+  .debounce_time_ms = 30U,
+  .hold_time_ms = 1000U,
+  .active_low = true,
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -113,7 +121,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  Button_Init(&btn1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,6 +131,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    Button_Update(&btn1);
+    if (btn1.pressed_flag)
+    {
+      btn1.pressed_flag = false;
+      dbg_print("TEST ", 0);
+    }
   }
   /* USER CODE END 3 */
 }
