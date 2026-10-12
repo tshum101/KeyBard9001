@@ -137,6 +137,16 @@ int main(void)
       btn1.pressed_flag = false;
       dbg_print("TEST ", 0);
     }
+    if (btn1.released_flag)
+    {
+      btn1.released_flag = false;
+      dbg_print("RELEASED ", 0);
+    }
+    if (btn1.held_flag)
+    {
+      btn1.held_flag = false;
+      dbg_print("HELD ", 0);
+    }
   }
   /* USER CODE END 3 */
 }
