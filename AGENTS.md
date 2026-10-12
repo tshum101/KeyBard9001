@@ -5,7 +5,7 @@ Custom 1800-layout keyboard firmware for an STM32F407VGT6. The tree is a STM32Cu
 ## Layout
 
 - `00_DesignFiles/` is the firmware. Open this directory for configure and build. The CubeMX project is `STM32F407VGT6.ioc`.
-- `00_DesignFiles/App/` is ours. Helper libraries and other firmware we write go here, kept separate from CubeMX output. List each new source and the `App` include path in the user sections of `00_DesignFiles/CMakeLists.txt`.
+- `00_DesignFiles/App/` is ours. Helper libraries and other firmware we write go here, kept separate from CubeMX output. Put `.c` files in `App/Src/` and `.h` files in `App/Inc/`. List each new source and the `App/Inc` include path in the user sections of `00_DesignFiles/CMakeLists.txt`.
 - `00_DesignFiles/CMakeLists.txt` is generated once. Add new sources, includes, and libraries in its marked user sections.
 - `00_DesignFiles/cmake/stm32cubemx/` is regenerated from the `.ioc`. Do not hand-edit it.
 - `Core/`, `USB_DEVICE/`, `Drivers/`, `Middlewares/`, `startup_stm32f407xx.s`, and `STM32F407xx_FLASH.ld` are CubeMX output.
@@ -28,7 +28,7 @@ Sending a 1: CCR 65: High for (0.903us), Low for (0.347us)
 
 Never change pin, clock, or peripheral configuration that CubeMX owns. That includes `MX_*_Init` bodies, GPIO setup, the clock tree, DMA and NVIC setup, pin macros in `Core/Inc/main.h`, hand edits to `STM32F407VGT6.ioc`, and `cmake/stm32cubemx/`. Make those settings in STM32CubeMX, then run Generate Code into this repo. The next generate overwrites anything outside the user markers.
 
-In Cube-generated `.c` and `.h` files, add code only between `USER CODE BEGIN` and `USER CODE END`. Put helper libraries and other new firmware in `00_DesignFiles/App/`, and call them from the user blocks in `Core/Src/main.c`. Do not place our code under `Core/`, `USB_DEVICE/`, `Drivers/`, or `Middlewares/`. Do not edit `Drivers/` or `Middlewares/` to change application behavior.
+In Cube-generated `.c` and `.h` files, add code only between `USER CODE BEGIN` and `USER CODE END`. Put helper libraries and other new firmware in `00_DesignFiles/App/` (`Src` for `.c`, `Inc` for `.h`), and call them from the user blocks in `Core/Src/main.c`. Do not place our code under `Core/`, `USB_DEVICE/`, `Drivers/`, or `Middlewares/`. Do not edit `Drivers/` or `Middlewares/` to change application behavior.
 
 ## Build
 

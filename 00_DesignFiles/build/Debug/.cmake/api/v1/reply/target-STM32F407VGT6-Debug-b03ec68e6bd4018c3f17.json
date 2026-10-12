@@ -114,7 +114,7 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/App"
+					"path" : "C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/App/Inc"
 				},
 				{
 					"backtrace" : 3,
@@ -202,7 +202,7 @@
 			[
 				{
 					"backtrace" : 5,
-					"path" : "C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/App"
+					"path" : "C:/Users/tshum/Documents/------- Taylor --------/KeyBard9001_taylor/KeyBard9001/00_DesignFiles/App/Inc"
 				},
 				{
 					"backtrace" : 3,
@@ -425,13 +425,13 @@
 		{
 			"backtrace" : 7,
 			"compileGroupIndex" : 0,
-			"path" : "App/button.c",
+			"path" : "App/Src/button.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 7,
 			"compileGroupIndex" : 0,
-			"path" : "App/dbg.c",
+			"path" : "App/Src/dbg.c",
 			"sourceGroupIndex" : 0
 		},
 		{
