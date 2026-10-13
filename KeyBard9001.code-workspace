@@ -1,0 +1,35 @@
+{
+    "folders": [
+        {
+            "name": "Firmware",
+            "path": "00_DesignFiles"
+        },
+        {
+            "name": "Docs",
+            "path": "01_Docs"
+        }
+    ],
+    "settings": {
+        "terminal.integrated.defaultProfile.windows": "Git Bash",
+        "terminal.integrated.profiles.windows": {
+            "Git Bash": {
+                "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+                "args": [
+                    "--login",
+                    "-i"
+                ]
+            }
+        },
+        "stm32cube-ide-clangd.path": "cube",
+        "stm32cube-ide-clangd.arguments": [
+            "starm-clangd",
+            "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc*",
+            "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-g++*"
+        ]
+    },
+    "extensions": {
+        "recommendations": [
+            "ms-vscode.cpptools"
+        ]
+    }
+}

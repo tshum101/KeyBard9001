@@ -12,6 +12,10 @@
             "cwd": "${workspaceFolder}",
             "preBuild": "${command:st-stm32-ide-debug-launch.build}",
             "runEntry": "main",
+            "deviceName": "STM32F407VGT6",
+            "deviceCore": "Cortex-M4",
+            "verbose": true,
+            "serverCubeProgPath": "${command:st-stm32-ide-debug-launch.get-programmer-path}",
             "imagesAndSymbols": [
                 {
                     "imageFileName": "${command:st-stm32-ide-debug-launch.get-projects-binary-from-context1}"
