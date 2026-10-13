@@ -123,7 +123,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Button_Init(&btn1);
   /* USER CODE END 2 */
-
+  dbg_print_text("START PROGRAM");
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -135,17 +135,17 @@ int main(void)
     if (btn1.pressed_flag)
     {
       btn1.pressed_flag = false;
-      dbg_print("TEST ", 0);
+      dbg_print1("TEST ", 0);
     }
     if (btn1.released_flag)
     {
       btn1.released_flag = false;
-      dbg_print("RELEASED ", 0);
+      dbg_print1("RELEASED ", 0);
     }
     if (btn1.held_flag)
     {
       btn1.held_flag = false;
-      dbg_print("HELD ", 0);
+      dbg_print1("HELD ", 0);
     }
   }
   /* USER CODE END 3 */
