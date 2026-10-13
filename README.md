@@ -5,4 +5,4 @@ Custom Keyboard Firmware
 
 ## Open in VS Code
 
-Open `KeyBard9001.code-workspace`. That makes `00_DesignFiles` its own workspace folder, which is what the STM32Cube extension requires before project setup. Opening this repo folder directly reports that the folder contains multiple CMake projects, and project setup stays disabled.
+Open `KeyBard9001.code-workspace`. Firmware (`00_DesignFiles`) and Docs stay their own folders. Repo is this directory, so `AGENTS.md`, `README.md`, and the workspace file show in the explorer. The root `CMakeLists.txt` is not the firmware build. Configure and build from `00_DesignFiles`.

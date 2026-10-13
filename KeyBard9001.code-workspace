@@ -7,9 +7,18 @@
         {
             "name": "Docs",
             "path": "01_Docs"
+        },
+        {
+            "name": "Repo",
+            "path": "."
         }
     ],
     "settings": {
+        "files.exclude": {
+            "00_DesignFiles": true,
+            "01_Docs": true
+        },
+        "stm32cube-ide-build-cmake.ignoreCubeProjectDiscovery": true,
         "terminal.integrated.defaultProfile.windows": "Git Bash",
         "terminal.integrated.profiles.windows": {
             "Git Bash": {

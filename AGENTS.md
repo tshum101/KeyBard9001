@@ -4,7 +4,7 @@ Custom 1800-layout keyboard firmware for an STM32F407VGT6. The tree is a STM32Cu
 
 ## Layout
 
-- `00_DesignFiles/` is the firmware. Open this directory for configure and build. The CubeMX project is `STM32F407VGT6.ioc`. In VS Code, open `KeyBard9001.code-workspace` so this folder is its own workspace root. Opening the repo root makes STM32Cube CMake Support refuse project setup.
+- `00_DesignFiles/` is the firmware. Open this directory for configure and build. The CubeMX project is `STM32F407VGT6.ioc`. In VS Code, open `KeyBard9001.code-workspace`. Firmware stays its own workspace folder. The repo root is a third folder so `AGENTS.md` and the workspace file stay visible. The root `CMakeLists.txt` is only there so STM32Cube accepts that folder. Do not build it, and do not point STM32CubeMX at it.
 - `00_DesignFiles/App/` is ours. Helper libraries and other firmware we write go here, kept separate from CubeMX output. Put `.c` files in `App/Src/` and `.h` files in `App/Inc/`. List each new source and the `App/Inc` include path in the user sections of `00_DesignFiles/CMakeLists.txt`.
 - `00_DesignFiles/CMakeLists.txt` is generated once. Add new sources, includes, and libraries in its marked user sections.
 - `00_DesignFiles/cmake/stm32cubemx/` is regenerated from the `.ioc`. Do not hand-edit it.
