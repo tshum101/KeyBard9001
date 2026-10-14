@@ -135,7 +135,7 @@ int main(void)
     if (btn1.pressed_flag)
     {
       btn1.pressed_flag = false;
-      dbg_print_text("PRESSED");
+      dbg_print_text("PRESSED yes");
     }
     if (btn1.released_flag)
     {

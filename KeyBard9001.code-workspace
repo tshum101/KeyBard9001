@@ -1,15 +1,15 @@
 {
     "folders": [
         {
-            "name": "Firmware",
+            "name": "00_DesignFiles",
             "path": "00_DesignFiles"
         },
         {
-            "name": "Docs",
+            "name": "01_Docs",
             "path": "01_Docs"
         },
         {
-            "name": "Repo",
+            "name": "Repo Top Level Files",
             "path": "."
         }
     ],
@@ -19,6 +19,8 @@
             "01_Docs": true
         },
         "stm32cube-ide-build-cmake.ignoreCubeProjectDiscovery": true,
+        "cmake.autoSelectActiveFolder": false,
+        "cmake.defaultActiveFolder": "00_DesignFiles",
         "terminal.integrated.defaultProfile.windows": "Git Bash",
         "terminal.integrated.profiles.windows": {
             "Git Bash": {
