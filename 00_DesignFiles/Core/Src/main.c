@@ -135,17 +135,17 @@ int main(void)
     if (btn1.pressed_flag)
     {
       btn1.pressed_flag = false;
-      dbg_print1("TEST ", 0);
+      dbg_print_text("PRESSED");
     }
     if (btn1.released_flag)
     {
       btn1.released_flag = false;
-      dbg_print1("RELEASED ", 0);
+      dbg_print_text("RELEASED");
     }
     if (btn1.held_flag)
     {
       btn1.held_flag = false;
-      dbg_print1("HELD ", 0);
+      dbg_print_text("HELD");
     }
   }
   /* USER CODE END 3 */

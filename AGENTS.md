@@ -30,6 +30,16 @@ Never change pin, clock, or peripheral configuration that CubeMX owns. That incl
 
 In Cube-generated `.c` and `.h` files, add code only between `USER CODE BEGIN` and `USER CODE END`. Put helper libraries and other new firmware in `00_DesignFiles/App/` (`Src` for `.c`, `Inc` for `.h`), and call them from the user blocks in `Core/Src/main.c`. Do not place our code under `Core/`, `USB_DEVICE/`, `Drivers/`, or `Middlewares/`. Do not edit `Drivers/` or `Middlewares/` to change application behavior.
 
+## Debug messages
+
+When asked to send a debug message or a log message, call the functions in `00_DesignFiles/App/` (`dbg.h` / `dbg.c`). Do not call `HAL_UART_Transmit` or `printf` for that. Each function sends on USART1 and ends with `\r\n`.
+
+- `dbg_print_text(text)` sends the text only.
+- `dbg_print1(text, value)` sends the text and one `int32_t`, with no extra separator.
+- `dbg_print2(text, value_a, value_b)` sends the text and two `int32_t` values, with one space between the numbers.
+
+A null text is sent as empty.
+
 ## Build
 
 Needs CMake 3.22+, Ninja, and `arm-none-eabi-gcc` on `PATH`. From `00_DesignFiles`:

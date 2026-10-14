@@ -1,0 +1,128 @@
+*NOTE: Any entry with NONE means no key is mapped to that combination
+
+
+------Row 1 (R1)------
+C1 = Esc
+C2 = NONE
+C3 = F1
+C4 = F2
+C5 = F3
+C6 = F4
+C7 = F5
+C8 = F6
+C9 = F7
+C10 = F8
+C11 = F9
+C12 = F10
+C13 = F11
+C14 = F12
+C15 = Calculator (open Calculator app on computer)
+C16 = Volume Mute/Unmute
+C17 = Volume Down
+C18 = Volume Up
+C19 = Keybard buton (this is a custom button that will be used to cycle between light modes and initiate mini games)
+
+------Row 2 (R2)------
+C1 = `~
+C2 = 1!
+C3 = 2@
+C4 = 3#
+C5 = 4$
+C6 = 5%
+C7 = 6^
+C8 = 7&
+C9 = 8*
+C10 = 9(
+C11 = 0)
+C12 = -_
+C13 = =+
+C14 = Backspace
+C15 = Delete
+C16 = Num Lock
+C17 = / (numpad)
+C18 = * (numpad)
+C19 = - (numpad)
+
+------Row 3 (R3)------
+C1 = Tab
+C2 = q
+C3 = w
+C4 = e
+C5 = r
+C6 = t
+C7 = y
+C8 = u
+C9 = i
+C10 = o
+C11 = p
+C12 = [{
+C13 = ]}
+C14 = \|
+C15 = Home
+C16 = 7 Home (numpad)
+C17 = 8 ArrowUp (numpad)
+C18 = 9 PgUp (numpad)
+C19 = + (numpad)
+
+------Row 4 (R4)------
+C1 = Caps Lock
+C2 = a
+C3 = s
+C4 = d
+C5 = f
+C6 = g
+C7 = h
+C8 = j
+C9 = k
+C10 = l
+C11 = ;:
+C12 = '"
+C13 = NONE
+C14 = Enter
+C15 = End
+C16 = 4 ArrowLeft (numpad)
+C17 = 5 (numpad)
+C18 = 6 ArrowRight (numpad)
+C19 = NONE
+
+------Row 5 (R5)------
+C1 = Shift (left)
+C2 = z
+C3 = x
+C4 = c
+C5 = v
+C6 = b
+C7 = n
+C8 = m
+C9 = ,<
+C10 = .>
+C11 = /?
+C12 = Shift (right)
+C13 = NONE
+C14 = NONE
+C15 = ArrowUp
+C16 = 1 End (numpad)
+C17 = 2 ArrowDown (numpad)
+C18 = 3 PgDn (numpad)
+C19 = Enter (numpad)
+
+------Row 6 (R6)------
+C1 = Ctrl (left)
+C2 = Windows Key
+C3 = Alt (left)
+C4 = Space
+C5 = NONE
+C6 = NONE
+C7 = NONE
+C8 = NONE
+C9 = NONE
+C10 = Alt (right)
+C11 = Function Key
+C12 = Ctrl (right)
+C13 = NONE
+C14 = ArrowLeft
+C15 = ArrowDown
+C16 = ArrowRight
+C17 = 0 Insert (numpad)
+C18 = . Delete
+C19 = NONE
