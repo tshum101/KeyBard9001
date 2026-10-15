@@ -25,6 +25,7 @@
 #define MATRIX_CONS_MUTE 0x01U
 #define MATRIX_CONS_VOL_DOWN 0x02U
 #define MATRIX_CONS_VOL_UP 0x04U
+#define MATRIX_CONS_CALC 0x08U
 
 #define MATRIX_KIND_KEY 0U
 #define MATRIX_KIND_MOD 1U
@@ -89,8 +90,7 @@ static const MatrixPin k_columns[MATRIX_COLS] = {
 };
 
 /* Shifted legends are produced by the OS from the base usage plus a shift bit.
-   Calculator (R1 C15) and Keybard (R1 C19) are omitted.
-   Fn is debounced for a later layer and is left out of the HID reports. */
+   Fn and Keybard are debounced for later features and are left out of the HID reports. */
 static MatrixKey s_keys[] = {
   /* R1 */
   MATRIX_MAP(0U, 0U, MATRIX_KIND_KEY, 0x29U, "esc"),
@@ -106,9 +106,11 @@ static MatrixKey s_keys[] = {
   MATRIX_MAP(0U, 11U, MATRIX_KIND_KEY, 0x43U, "f10"),
   MATRIX_MAP(0U, 12U, MATRIX_KIND_KEY, 0x44U, "f11"),
   MATRIX_MAP(0U, 13U, MATRIX_KIND_KEY, 0x45U, "f12"),
+  MATRIX_MAP(0U, 14U, MATRIX_KIND_CONS, MATRIX_CONS_CALC, "calc"),
   MATRIX_MAP(0U, 15U, MATRIX_KIND_CONS, MATRIX_CONS_MUTE, "mute"),
   MATRIX_MAP(0U, 16U, MATRIX_KIND_CONS, MATRIX_CONS_VOL_DOWN, "voldown"),
   MATRIX_MAP(0U, 17U, MATRIX_KIND_CONS, MATRIX_CONS_VOL_UP, "volup"),
+  MATRIX_MAP(0U, 18U, MATRIX_KIND_LOCAL, 0x00U, "keybard"),
 
   /* R2 */
   MATRIX_MAP(1U, 0U, MATRIX_KIND_KEY, 0x35U, "grave"),
@@ -205,7 +207,7 @@ static MatrixKey s_keys[] = {
   MATRIX_MAP(5U, 17U, MATRIX_KIND_KEY, 0x63U, "kpdot"),
 };
 
-_Static_assert((sizeof(s_keys) / sizeof(s_keys[0])) == 100U, "layout key count");
+_Static_assert((sizeof(s_keys) / sizeof(s_keys[0])) == 102U, "layout key count");
 
 static volatile uint32_t s_raw[MATRIX_ROWS];
 static volatile uint32_t s_scan_count;

@@ -11,7 +11,7 @@ void Matrix_Poll(void);
    Byte 0 is the modifier bitfield. Bytes 2 through 7 are key codes. */
 void Matrix_FillReport(uint8_t report[8]);
 
-/* Bit 0 mute, bit 1 volume down, bit 2 volume up. */
+/* Bit 0 mute, bit 1 volume down, bit 2 volume up, bit 3 calculator. */
 void Matrix_FillConsumer(uint8_t report[1]);
 
 #endif

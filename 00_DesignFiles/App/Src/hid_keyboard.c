@@ -104,23 +104,24 @@ __ALIGN_BEGIN static uint8_t s_report_desc[HID_KB_REPORT_DESC_SIZE] __ALIGN_END 
   0xC0        /* End Collection */
 };
 
-/* Mute, volume down, volume up. Bit order matches Matrix_FillConsumer. */
+/* Mute, volume down, volume up, calculator. Bit order matches Matrix_FillConsumer. */
 __ALIGN_BEGIN static uint8_t s_cons_report_desc[] __ALIGN_END =
 {
-  0x05, 0x0C, /* Usage Page (Consumer) */
-  0x09, 0x01, /* Usage (Consumer Control) */
-  0xA1, 0x01, /* Collection (Application) */
-  0x15, 0x00, /*   Logical Minimum (0) */
-  0x25, 0x01, /*   Logical Maximum (1) */
-  0x75, 0x01, /*   Report Size (1) */
-  0x95, 0x03, /*   Report Count (3) */
-  0x09, 0xE2, /*   Usage (Mute) */
-  0x09, 0xEA, /*   Usage (Volume Decrement) */
-  0x09, 0xE9, /*   Usage (Volume Increment) */
-  0x81, 0x02, /*   Input (Data, Var, Abs) */
-  0x95, 0x05, /*   Report Count (5) */
-  0x81, 0x01, /*   Input (Const) */
-  0xC0        /* End Collection */
+  0x05, 0x0C,       /* Usage Page (Consumer) */
+  0x09, 0x01,       /* Usage (Consumer Control) */
+  0xA1, 0x01,       /* Collection (Application) */
+  0x15, 0x00,       /*   Logical Minimum (0) */
+  0x25, 0x01,       /*   Logical Maximum (1) */
+  0x75, 0x01,       /*   Report Size (1) */
+  0x95, 0x04,       /*   Report Count (4) */
+  0x09, 0xE2,       /*   Usage (Mute) */
+  0x09, 0xEA,       /*   Usage (Volume Decrement) */
+  0x09, 0xE9,       /*   Usage (Volume Increment) */
+  0x0A, 0x92, 0x01, /*   Usage (AL Calculator) */
+  0x81, 0x02,       /*   Input (Data, Var, Abs) */
+  0x95, 0x04,       /*   Report Count (4) */
+  0x81, 0x01,       /*   Input (Const) */
+  0xC0              /* End Collection */
 };
 
 __ALIGN_BEGIN static uint8_t s_cfg_desc[] __ALIGN_END =
