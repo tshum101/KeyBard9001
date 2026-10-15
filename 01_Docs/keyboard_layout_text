@@ -1,4 +1,5 @@
 *NOTE: Any entry with NONE means no key is mapped to that combination
+*NOTE: the first entry is the standard, second is the Shift+key entry, (comments in here are just notes)
 
 
 ------Row 1 (R1)------
@@ -17,47 +18,47 @@ C12 = F10
 C13 = F11
 C14 = F12
 C15 = Calculator (open Calculator app on computer)
-C16 = Volume Mute/Unmute
-C17 = Volume Down
-C18 = Volume Up
-C19 = Keybard buton (this is a custom button that will be used to cycle between light modes and initiate mini games)
+C16 = VolumeMute/Unmute
+C17 = VolumeDown
+C18 = VolumeUp
+C19 = KeybardButton (this is a custom button that will be used to cycle between light modes and initiate mini games)
 
 ------Row 2 (R2)------
-C1 = `~
-C2 = 1!
-C3 = 2@
-C4 = 3#
-C5 = 4$
-C6 = 5%
-C7 = 6^
-C8 = 7&
-C9 = 8*
-C10 = 9(
-C11 = 0)
-C12 = -_
-C13 = =+
+C1 = ` ~
+C2 = 1 !
+C3 = 2 @
+C4 = 3 #
+C5 = 4 $
+C6 = 5 %
+C7 = 6 ^
+C8 = 7 &
+C9 = 8 *
+C10 = 9 (
+C11 = 0 )
+C12 = - _
+C13 = = +
 C14 = Backspace
 C15 = Delete
-C16 = Num Lock
+C16 = NumLock
 C17 = / (numpad)
 C18 = * (numpad)
 C19 = - (numpad)
 
 ------Row 3 (R3)------
 C1 = Tab
-C2 = q
-C3 = w
-C4 = e
-C5 = r
-C6 = t
-C7 = y
-C8 = u
-C9 = i
-C10 = o
-C11 = p
-C12 = [{
-C13 = ]}
-C14 = \|
+C2 = q Q
+C3 = w W
+C4 = e E
+C5 = r R
+C6 = t T
+C7 = y Y
+C8 = u U
+C9 = i I
+C10 = o O
+C11 = p P
+C12 = [ {
+C13 = ] }
+C14 = \ |
 C15 = Home
 C16 = 7 Home (numpad)
 C17 = 8 ArrowUp (numpad)
@@ -66,17 +67,17 @@ C19 = + (numpad)
 
 ------Row 4 (R4)------
 C1 = Caps Lock
-C2 = a
-C3 = s
-C4 = d
-C5 = f
-C6 = g
-C7 = h
-C8 = j
-C9 = k
-C10 = l
-C11 = ;:
-C12 = '"
+C2 = a A
+C3 = s S
+C4 = d D
+C5 = f F
+C6 = g G
+C7 = h H
+C8 = j J
+C9 = k K
+C10 = l L
+C11 = ; :
+C12 = ' "
 C13 = NONE
 C14 = Enter
 C15 = End
@@ -87,16 +88,16 @@ C19 = NONE
 
 ------Row 5 (R5)------
 C1 = Shift (left)
-C2 = z
-C3 = x
-C4 = c
-C5 = v
-C6 = b
-C7 = n
-C8 = m
-C9 = ,<
-C10 = .>
-C11 = /?
+C2 = zZ
+C3 = xX
+C4 = cC
+C5 = vV
+C6 = b B
+C7 = n N
+C8 = m M
+C9 = , <
+C10 = . >
+C11 = / ?
 C12 = Shift (right)
 C13 = NONE
 C14 = NONE
@@ -108,7 +109,7 @@ C19 = Enter (numpad)
 
 ------Row 6 (R6)------
 C1 = Ctrl (left)
-C2 = Windows Key
+C2 = WindowsKey
 C3 = Alt (left)
 C4 = Space
 C5 = NONE
@@ -117,7 +118,7 @@ C7 = NONE
 C8 = NONE
 C9 = NONE
 C10 = Alt (right)
-C11 = Function Key
+C11 = FunctionKey
 C12 = Ctrl (right)
 C13 = NONE
 C14 = ArrowLeft

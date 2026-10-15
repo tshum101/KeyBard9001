@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "button.h"
 #include "dbg.h"
+#include "hid_keyboard.h"
+#include "matrix.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,7 +35,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+_Static_assert(HID_KEYBOARD_REPORT_LEN == 8U, "matrix fills an 8-byte boot report");
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -122,6 +124,11 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   Button_Init(&btn1);
+  Matrix_Init();
+  if (HAL_TIM_Base_Start_IT(&htim6) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE END 2 */
   dbg_print_text("START PROGRAM");
   /* Infinite loop */
@@ -146,6 +153,16 @@ int main(void)
     {
       btn1.held_flag = false;
       dbg_print_text("HELD");
+    }
+    Matrix_Poll();
+    {
+      uint8_t report[HID_KEYBOARD_REPORT_LEN];
+      uint8_t consumer[HID_CONSUMER_REPORT_LEN];
+
+      Matrix_FillReport(report);
+      Matrix_FillConsumer(consumer);
+      HidKeyboard_SendIfChanged(report);
+      HidKeyboard_SendConsumerIfChanged(consumer);
     }
   }
   /* USER CODE END 3 */
@@ -559,7 +576,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim->Instance == TIM6)
+  {
+    Matrix_OnTick();
+  }
+}
 /* USER CODE END 4 */
 
 /**

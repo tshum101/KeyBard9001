@@ -27,4 +27,9 @@ typedef struct
 void Button_Init(Button *btn);
 void Button_Update(Button *btn);
 
+/* raw_pressed is already decoded. Matrix keys use these and leave the GPIO fields unused. */
+void Button_InitLevel(Button *btn, bool raw_pressed);
+void Button_UpdateLevel(Button *btn, bool raw_pressed);
+bool Button_IsPressed(const Button *btn);
+
 #endif

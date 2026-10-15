@@ -26,7 +26,9 @@
 #include "usbd_hid.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "hid_keyboard.h"
+/* Redirect the generated USBD_RegisterClass(&USBD_HID) to the keyboard class. */
+#define USBD_HID USBD_HID_Keyboard
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */

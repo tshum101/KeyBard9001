@@ -47,6 +47,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     App/Src/button.c
     App/Src/dbg.c
+    App/Src/matrix.c
+    App/Src/hid_keyboard.c
 )
 
 # Add include paths

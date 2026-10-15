@@ -11,22 +11,8 @@ static bool Button_IsRawPressed(const Button *btn)
   return level == GPIO_PIN_SET;
 }
 
-void Button_Init(Button *btn)
+static void Button_AcceptRaw(Button *btn, bool raw, uint32_t now)
 {
-  bool pressed = Button_IsRawPressed(btn);
-
-  btn->stable_pressed = pressed;
-  btn->debounce_raw = pressed;
-  btn->hold_latched = false;
-  btn->debounce_start_ms = HAL_GetTick();
-  btn->press_start_ms = btn->debounce_start_ms;
-}
-
-void Button_Update(Button *btn)
-{
-  uint32_t now = HAL_GetTick();
-  bool raw = Button_IsRawPressed(btn);
-
   if (raw != btn->debounce_raw)
   {
     btn->debounce_raw = raw;
@@ -55,4 +41,33 @@ void Button_Update(Button *btn)
     btn->held_flag = true;
     btn->hold_latched = true;
   }
+}
+
+void Button_InitLevel(Button *btn, bool raw_pressed)
+{
+  btn->stable_pressed = raw_pressed;
+  btn->debounce_raw = raw_pressed;
+  btn->hold_latched = false;
+  btn->debounce_start_ms = HAL_GetTick();
+  btn->press_start_ms = btn->debounce_start_ms;
+}
+
+void Button_Init(Button *btn)
+{
+  Button_InitLevel(btn, Button_IsRawPressed(btn));
+}
+
+void Button_UpdateLevel(Button *btn, bool raw_pressed)
+{
+  Button_AcceptRaw(btn, raw_pressed, HAL_GetTick());
+}
+
+void Button_Update(Button *btn)
+{
+  Button_UpdateLevel(btn, Button_IsRawPressed(btn));
+}
+
+bool Button_IsPressed(const Button *btn)
+{
+  return btn->stable_pressed;
 }
