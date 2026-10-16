@@ -1,0 +1,12 @@
+{
+    "cmake.cmakePath": "cube-cmake",
+    "cmake.configureArgs": [
+        "-DCMAKE_COMMAND=cube-cmake"
+    ],
+    "cmake.preferredGenerators": [
+        "Ninja"
+    ],
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.configurePreset": "Debug",
+    "cmake.buildPreset": "Debug"
+}

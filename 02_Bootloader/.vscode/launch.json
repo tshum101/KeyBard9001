@@ -6,7 +6,7 @@
             "request": "launch",
             "name": "Bootloader: Launch ST-Link GDB Server",
             "origin": "snippet",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder:02_Bootloader}",
             "preBuild": "${command:st-stm32-ide-debug-launch.build}",
             "deviceName": "STM32F407VGT6",
             "deviceCore": "Cortex-M4",
@@ -14,7 +14,7 @@
             "serverCubeProgPath": "${command:st-stm32-ide-debug-launch.get-programmer-path}",
             "imagesAndSymbols": [
                 {
-                    "imageFileName": "${workspaceFolder}/build/Debug/Bootloader.elf"
+                    "imageFileName": "${workspaceFolder:02_Bootloader}/build/Debug/Bootloader.elf"
                 }
             ]
         }

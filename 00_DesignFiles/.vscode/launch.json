@@ -2,6 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "Program Keyboard (USB DFU)",
+            "cwd": "${workspaceFolder}",
+            "command": "bash .vscode/program-keyboard-dfu.sh"
+        },
+        {
             "type": "stlinkgdbtarget",
             "request": "launch",
             "name": "STM32Cube: Launch ST-Link GDB Server",
