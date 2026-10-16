@@ -1,0 +1,685 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KeyBard 9001</title>
+  <style>
+:root {
+  --u: 52px;
+  --gap: 5px;
+  --ink: #1c1c1a;
+  --paper: #f3f0e8;
+  --board: #d5d1c8;
+  --cap: #f7f4ee;
+  --cap-edge: #b7b2a8;
+  --held: #2f6fed;
+  --seen: #2f9e44;
+  --muted: #8d887e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 24px 20px 40px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 16px/1.4 "Segoe UI", system-ui, sans-serif;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.hint {
+  margin: 0 0 16px;
+  max-width: 70ch;
+  color: #c8c3b8;
+}
+
+.type-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #c8c3b8;
+}
+
+textarea {
+  display: block;
+  width: min(1066px, 100%);
+  min-height: 76px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid #3a3a36;
+  border-radius: 8px;
+  background: #111;
+  color: var(--paper);
+  font: 18px/1.4 Consolas, "Cascadia Mono", monospace;
+  resize: vertical;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+button {
+  border: 1px solid #4a4a44;
+  border-radius: 8px;
+  background: #2a2a26;
+  color: var(--paper);
+  padding: 8px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button[aria-pressed="true"] {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.layer {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #2a2a26;
+  color: #d9d3c6;
+  font-size: 14px;
+}
+
+#status {
+  color: #c8c3b8;
+  font-size: 14px;
+}
+
+.stage {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.board {
+  position: relative;
+  width: calc(20.5 * var(--u));
+  height: calc(6.6 * var(--u));
+  background: var(--board);
+  border-radius: 12px;
+}
+
+.key {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u) - var(--gap));
+  height: calc(var(--h) * var(--u) - var(--gap));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--cap-edge);
+  border-radius: 6px;
+  background: var(--cap);
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+  user-select: none;
+}
+
+.face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.05;
+}
+
+.legend { font-size: 15px; font-weight: 600; }
+.sub { font-size: 10px; color: #5e5a53; }
+.key.long .legend { font-size: 12px; font-weight: 600; }
+
+.key.silent {
+  background: #e6e2d8;
+  color: var(--muted);
+  border-style: dashed;
+}
+
+.key.held {
+  background: var(--held);
+  color: white;
+  border-color: #1d4eb8;
+}
+
+.key.held .sub { color: #d6e4ff; }
+
+.key.seen {
+  background: var(--seen);
+  color: white;
+  border-color: #1d6b32;
+}
+
+.key.seen .sub { color: #d8ffe4; }
+
+.key.seen.held {
+  outline: 3px solid #d7ffe0;
+  outline-offset: -4px;
+}
+
+p.legend {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  color: #c8c3b8;
+  font-size: 14px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border-radius: 4px;
+  vertical-align: -3px;
+  border: 1px solid #888;
+}
+
+.swatch.held { background: var(--held); border-color: var(--held); }
+.swatch.seen { background: var(--seen); border-color: var(--seen); }
+.swatch.silent { background: #e6e2d8; border-style: dashed; }
+
+@media (max-width: 1100px) {
+  :root { --u: 42px; }
+}
+
+@media (max-width: 860px) {
+  :root { --u: 34px; }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KeyBard 9001</h1>
+    <p id="hint" class="hint"></p>
+  </header>
+
+  <label class="type-label" for="pad">Typing test</label>
+  <textarea id="pad" rows="3" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Click here and type"></textarea>
+
+  <div class="toolbar">
+    <button type="button" id="live" aria-pressed="true">Live Mode</button>
+    <button type="button" id="test" aria-pressed="false">Test Mode</button>
+    <button type="button" id="clear">Clear keys</button>
+    <button type="button" id="connect">Connect</button>
+    <button type="button" id="capture" aria-pressed="false">Capture keys</button>
+    <span id="layer" class="layer">Base layer</span>
+    <span id="status"></span>
+  </div>
+
+  <div class="stage">
+    <div id="board" class="board"></div>
+  </div>
+
+  <p class="legend">
+    <span class="swatch held"></span> held in Live Mode
+    <span class="swatch seen"></span> seen in Test Mode
+    <span class="swatch silent"></span> Fn and Keybard are not reported
+  </p>
+
+  <script>
+const HID_FILTER = {
+  vendorId: 0x0483,
+  productId: 0x572b,
+  usagePage: 0x0c,
+  usage: 0x01
+};
+
+const keys = [];
+
+function add(spec) {
+  keys.push({
+    code: spec.code || null,
+    label: spec.label,
+    shift: spec.shift || null,
+    sub: spec.sub || null,
+    x: spec.x,
+    y: spec.y,
+    w: spec.w || 1,
+    h: spec.h || 1,
+    consumer: spec.consumer || 0,
+    silent: !!spec.silent,
+    where: spec.where || "",
+    down: false,
+    seen: false,
+    seenShift: false,
+    el: null,
+    legendEl: null,
+    subEl: null
+  });
+}
+
+function row(y, startX, rowNumber, colStart, items) {
+  items.forEach(function (item, index) {
+    add({
+      code: item[0],
+      label: item[1],
+      shift: item[2] || null,
+      x: startX + index,
+      y: y,
+      where: "R" + rowNumber + " C" + (colStart + index)
+    });
+  });
+}
+
+add({ code: "Escape", label: "Esc", x: 0, y: 0, where: "R1 C1" });
+add({ code: "F1", label: "F1", x: 2, y: 0, where: "R1 C3" });
+add({ code: "F2", label: "F2", x: 3, y: 0, where: "R1 C4" });
+add({ code: "F3", label: "F3", x: 4, y: 0, where: "R1 C5" });
+add({ code: "F4", label: "F4", x: 5, y: 0, where: "R1 C6" });
+add({ code: "F5", label: "F5", x: 6.5, y: 0, where: "R1 C7" });
+add({ code: "F6", label: "F6", x: 7.5, y: 0, where: "R1 C8" });
+add({ code: "F7", label: "F7", x: 8.5, y: 0, where: "R1 C9" });
+add({ code: "F8", label: "F8", x: 9.5, y: 0, where: "R1 C10" });
+add({ code: "F9", label: "F9", x: 11, y: 0, where: "R1 C11" });
+add({ code: "F10", label: "F10", x: 12, y: 0, where: "R1 C12" });
+add({ code: "F11", label: "F11", x: 13, y: 0, where: "R1 C13" });
+add({ code: "F12", label: "F12", x: 14, y: 0, where: "R1 C14" });
+add({ label: "Calc", x: 15.5, y: 0, consumer: 0x08, where: "R1 C15" });
+add({ code: "AudioVolumeMute", label: "Mute", x: 16.5, y: 0, consumer: 0x01, where: "R1 C16" });
+add({ code: "AudioVolumeDown", label: "Vol-", x: 17.5, y: 0, consumer: 0x02, where: "R1 C17" });
+add({ code: "AudioVolumeUp", label: "Vol+", x: 18.5, y: 0, consumer: 0x04, where: "R1 C18" });
+add({ label: "Keybard", x: 19.5, y: 0, silent: true, where: "R1 C19" });
+
+add({ code: "Backquote", label: "`", shift: "~", x: 0, y: 1.25, where: "R2 C1" });
+row(1.25, 1, 2, 2, [
+  ["Digit1", "1", "!"],
+  ["Digit2", "2", "@"],
+  ["Digit3", "3", "#"],
+  ["Digit4", "4", "$"],
+  ["Digit5", "5", "%"],
+  ["Digit6", "6", "^"],
+  ["Digit7", "7", "&"],
+  ["Digit8", "8", "*"],
+  ["Digit9", "9", "("],
+  ["Digit0", "0", ")"],
+  ["Minus", "-", "_"],
+  ["Equal", "=", "+"]
+]);
+add({ code: "Backspace", label: "Backspace", x: 13, y: 1.25, w: 2, where: "R2 C14" });
+add({ code: "Delete", label: "Delete", x: 15.5, y: 1.25, where: "R2 C15" });
+add({ code: "NumLock", label: "Num", x: 16.5, y: 1.25, where: "R2 C16" });
+add({ code: "NumpadDivide", label: "/", x: 17.5, y: 1.25, where: "R2 C17" });
+add({ code: "NumpadMultiply", label: "*", x: 18.5, y: 1.25, where: "R2 C18" });
+add({ code: "NumpadSubtract", label: "-", x: 19.5, y: 1.25, where: "R2 C19" });
+
+add({ code: "Tab", label: "Tab", x: 0, y: 2.25, w: 1.5, where: "R3 C1" });
+row(2.25, 1.5, 3, 2, [
+  ["KeyQ", "q", "Q"],
+  ["KeyW", "w", "W"],
+  ["KeyE", "e", "E"],
+  ["KeyR", "r", "R"],
+  ["KeyT", "t", "T"],
+  ["KeyY", "y", "Y"],
+  ["KeyU", "u", "U"],
+  ["KeyI", "i", "I"],
+  ["KeyO", "o", "O"],
+  ["KeyP", "p", "P"]
+]);
+add({ code: "BracketLeft", label: "[", shift: "{", x: 11.5, y: 2.25, where: "R3 C12" });
+add({ code: "BracketRight", label: "]", shift: "}", x: 12.5, y: 2.25, where: "R3 C13" });
+add({ code: "Backslash", label: "\\", shift: "|", x: 13.5, y: 2.25, w: 1.5, where: "R3 C14" });
+add({ code: "Home", label: "Home", x: 15.5, y: 2.25, where: "R3 C15" });
+add({ code: "Numpad7", label: "7", shift: "Home", sub: "Home", x: 16.5, y: 2.25, where: "R3 C16" });
+add({ code: "Numpad8", label: "8", shift: "Up", sub: "Up", x: 17.5, y: 2.25, where: "R3 C17" });
+add({ code: "Numpad9", label: "9", shift: "PgUp", sub: "PgUp", x: 18.5, y: 2.25, where: "R3 C18" });
+add({ code: "NumpadAdd", label: "+", x: 19.5, y: 2.25, h: 2, where: "R3 C19" });
+
+add({ code: "CapsLock", label: "Caps", x: 0, y: 3.25, w: 1.75, where: "R4 C1" });
+row(3.25, 1.75, 4, 2, [
+  ["KeyA", "a", "A"],
+  ["KeyS", "s", "S"],
+  ["KeyD", "d", "D"],
+  ["KeyF", "f", "F"],
+  ["KeyG", "g", "G"],
+  ["KeyH", "h", "H"],
+  ["KeyJ", "j", "J"],
+  ["KeyK", "k", "K"],
+  ["KeyL", "l", "L"]
+]);
+add({ code: "Semicolon", label: ";", shift: ":", x: 10.75, y: 3.25, where: "R4 C11" });
+add({ code: "Quote", label: "'", shift: "\"", x: 11.75, y: 3.25, where: "R4 C12" });
+add({ code: "Enter", label: "Enter", x: 12.75, y: 3.25, w: 2.25, where: "R4 C14" });
+add({ code: "End", label: "End", x: 15.5, y: 3.25, where: "R4 C15" });
+add({ code: "Numpad4", label: "4", shift: "Left", sub: "Left", x: 16.5, y: 3.25, where: "R4 C16" });
+add({ code: "Numpad5", label: "5", x: 17.5, y: 3.25, where: "R4 C17" });
+add({ code: "Numpad6", label: "6", shift: "Right", sub: "Right", x: 18.5, y: 3.25, where: "R4 C18" });
+
+add({ code: "ShiftLeft", label: "Shift", x: 0, y: 4.25, w: 2.25, where: "R5 C1" });
+row(4.25, 2.25, 5, 2, [
+  ["KeyZ", "z", "Z"],
+  ["KeyX", "x", "X"],
+  ["KeyC", "c", "C"],
+  ["KeyV", "v", "V"],
+  ["KeyB", "b", "B"],
+  ["KeyN", "n", "N"],
+  ["KeyM", "m", "M"]
+]);
+add({ code: "Comma", label: ",", shift: "<", x: 9.25, y: 4.25, where: "R5 C9" });
+add({ code: "Period", label: ".", shift: ">", x: 10.25, y: 4.25, where: "R5 C10" });
+add({ code: "Slash", label: "/", shift: "?", x: 11.25, y: 4.25, where: "R5 C11" });
+add({ code: "ShiftRight", label: "Shift", x: 12.25, y: 4.25, w: 1.75, where: "R5 C12" });
+add({ code: "ArrowUp", label: "Up", x: 14.25, y: 4.5, where: "R5 C15" });
+add({ code: "Numpad1", label: "1", shift: "End", sub: "End", x: 16.5, y: 4.25, where: "R5 C16" });
+add({ code: "Numpad2", label: "2", shift: "Down", sub: "Down", x: 17.5, y: 4.25, where: "R5 C17" });
+add({ code: "Numpad3", label: "3", shift: "PgDn", sub: "PgDn", x: 18.5, y: 4.25, where: "R5 C18" });
+add({ code: "NumpadEnter", label: "Enter", x: 19.5, y: 4.25, h: 2, where: "R5 C19" });
+
+add({ code: "ControlLeft", label: "Ctrl", x: 0, y: 5.25, w: 1.25, where: "R6 C1" });
+add({ code: "MetaLeft", label: "Win", x: 1.25, y: 5.25, w: 1.25, where: "R6 C2" });
+add({ code: "AltLeft", label: "Alt", x: 2.5, y: 5.25, w: 1.25, where: "R6 C3" });
+add({ code: "Space", label: "Space", x: 3.75, y: 5.25, w: 6.25, where: "R6 C4" });
+add({ code: "AltRight", label: "Alt", x: 10, y: 5.25, where: "R6 C10" });
+add({ label: "Fn", x: 11, y: 5.25, silent: true, where: "R6 C11" });
+add({ code: "ControlRight", label: "Ctrl", x: 12, y: 5.25, where: "R6 C12" });
+add({ code: "ArrowLeft", label: "Left", x: 13.25, y: 5.5, where: "R6 C14" });
+add({ code: "ArrowDown", label: "Down", x: 14.25, y: 5.5, where: "R6 C15" });
+add({ code: "ArrowRight", label: "Right", x: 15.25, y: 5.5, where: "R6 C16" });
+add({ code: "Numpad0", label: "0", shift: "Ins", sub: "Ins", x: 16.5, y: 5.25, w: 2, where: "R6 C17" });
+add({ code: "NumpadDecimal", label: ".", shift: "Del", sub: "Del", x: 18.5, y: 5.25, where: "R6 C18" });
+
+const byCode = new Map();
+keys.forEach(function (item) {
+  if (item.code) byCode.set(item.code, item);
+});
+
+/* Windows reports Shift+numpad as the navigation key. location 3 is the numpad. */
+const NUMPAD_ALIAS = {
+  Home: "Numpad7",
+  ArrowUp: "Numpad8",
+  PageUp: "Numpad9",
+  ArrowLeft: "Numpad4",
+  ArrowRight: "Numpad6",
+  End: "Numpad1",
+  ArrowDown: "Numpad2",
+  PageDown: "Numpad3",
+  Insert: "Numpad0",
+  Delete: "NumpadDecimal"
+};
+
+const SWALLOW = {
+  MetaLeft: true,
+  MetaRight: true
+};
+for (let fn = 1; fn <= 12; fn += 1) SWALLOW["F" + fn] = true;
+
+function keyFromEvent(event) {
+  let code = event.code;
+  if (event.location === 3 && NUMPAD_ALIAS[code]) code = NUMPAD_ALIAS[code];
+  return byCode.get(code) || null;
+}
+
+const board = document.getElementById("board");
+const pad = document.getElementById("pad");
+const liveButton = document.getElementById("live");
+const testButton = document.getElementById("test");
+const clearButton = document.getElementById("clear");
+const connectButton = document.getElementById("connect");
+const captureButton = document.getElementById("capture");
+const layerEl = document.getElementById("layer");
+const statusEl = document.getElementById("status");
+const hintEl = document.getElementById("hint");
+
+let mode = "live";
+let hidDevice = null;
+let hidNote = "";
+
+keys.forEach(function (item) {
+  const el = document.createElement("div");
+  el.className = "key" + (item.silent ? " silent" : "") + (item.label.length > 4 ? " long" : "");
+  el.style.setProperty("--x", String(item.x));
+  el.style.setProperty("--y", String(item.y));
+  el.style.setProperty("--w", String(item.w));
+  el.style.setProperty("--h", String(item.h));
+  el.title = item.where + (item.silent ? " is not reported" : "");
+
+  const face = document.createElement("span");
+  face.className = "face";
+  const legend = document.createElement("span");
+  legend.className = "legend";
+  face.appendChild(legend);
+  let sub = null;
+  if (item.sub) {
+    sub = document.createElement("span");
+    sub.className = "sub";
+    sub.textContent = item.sub;
+    face.appendChild(sub);
+  }
+  el.appendChild(face);
+  board.appendChild(el);
+  item.el = el;
+  item.legendEl = legend;
+  item.subEl = sub;
+});
+
+function shiftHeld() {
+  const left = byCode.get("ShiftLeft");
+  const right = byCode.get("ShiftRight");
+  return !!(left && left.down) || !!(right && right.down);
+}
+
+function showingShift(item) {
+  return !!(item.shift && shiftHeld());
+}
+
+function remembered(item) {
+  return showingShift(item) ? item.seenShift : item.seen;
+}
+
+function remember(item) {
+  if (mode !== "test" || item.silent) return;
+  if (showingShift(item)) item.seenShift = true;
+  else item.seen = true;
+}
+
+function paint() {
+  const shifted = shiftHeld();
+  layerEl.textContent = shifted ? "Shift layer" : "Base layer";
+  keys.forEach(function (item) {
+    const showShift = showingShift(item);
+    item.legendEl.textContent = showShift ? item.shift : item.label;
+    if (item.subEl) item.subEl.hidden = showShift;
+    item.el.classList.toggle("held", item.down && !item.silent);
+    item.el.classList.toggle("seen", mode === "test" && remembered(item));
+  });
+  const parts = [mode === "live" ? "Live Mode" : "Test Mode"];
+  if (hidDevice) parts.push("volume and calculator connected");
+  else parts.push(hidNote);
+  statusEl.textContent = parts.join(". ");
+}
+
+function setMode(next) {
+  mode = next;
+  liveButton.setAttribute("aria-pressed", next === "live" ? "true" : "false");
+  testButton.setAttribute("aria-pressed", next === "test" ? "true" : "false");
+  paint();
+  pad.focus();
+}
+
+function clearMemory() {
+  keys.forEach(function (item) {
+    item.seen = false;
+    item.seenShift = false;
+  });
+  paint();
+  pad.focus();
+}
+
+function releaseTypingKeys() {
+  keys.forEach(function (item) {
+    if (!item.consumer) item.down = false;
+  });
+  paint();
+}
+
+function onKeyDown(event) {
+  if (SWALLOW[event.code]) event.preventDefault();
+  const item = keyFromEvent(event);
+  if (!item || item.silent) return;
+  if (hidDevice && item.consumer) return;
+  if (event.repeat) return;
+  item.down = true;
+  remember(item);
+  paint();
+}
+
+function onKeyUp(event) {
+  if (SWALLOW[event.code]) event.preventDefault();
+  const item = keyFromEvent(event);
+  if (!item || item.silent) return;
+  if (hidDevice && item.consumer) return;
+  item.down = false;
+  paint();
+}
+
+function applyConsumer(value) {
+  keys.forEach(function (item) {
+    if (!item.consumer) return;
+    const now = (value & item.consumer) !== 0;
+    if (now && !item.down) remember(item);
+    item.down = now;
+  });
+  paint();
+}
+
+function watchDevice(device) {
+  hidDevice = device;
+  hidNote = "";
+  connectButton.textContent = "Connected";
+  device.addEventListener("inputreport", function (event) {
+    if (event.data.byteLength < 1) return;
+    applyConsumer(event.data.getUint8(0));
+  });
+  paint();
+}
+
+async function openDevice(device) {
+  if (!device.opened) await device.open();
+  watchDevice(device);
+}
+
+async function connect() {
+  if (!navigator.hid) return;
+  try {
+    const devices = await navigator.hid.requestDevice({ filters: [HID_FILTER] });
+    if (devices[0]) await openDevice(devices[0]);
+    else {
+      hidNote = "Connect canceled";
+      paint();
+    }
+  } catch (error) {
+    hidNote = "Connect canceled";
+    paint();
+  }
+  pad.focus();
+}
+
+async function restoreDevice() {
+  if (!navigator.hid) {
+    hidNote = "this browser has no WebHID";
+    connectButton.disabled = true;
+    paint();
+    return;
+  }
+  if (!window.isSecureContext) {
+    hidNote = "open this page from localhost to connect volume and calculator";
+    connectButton.disabled = true;
+    paint();
+    return;
+  }
+  hidNote = "click Connect for mute, volume, and calculator";
+  const devices = await navigator.hid.getDevices();
+  const existing = devices.find(function (device) {
+    return device.vendorId === HID_FILTER.vendorId && device.productId === HID_FILTER.productId;
+  });
+  if (existing) {
+    try {
+      await openDevice(existing);
+    } catch (error) {
+      hidNote = "click Connect for mute, volume, and calculator";
+      paint();
+    }
+  } else {
+    paint();
+  }
+}
+
+hintEl.textContent = "Open this file in Chrome. Shift shows the second legend, including the numpad. Capture keys holds F1–F12 and the Windows key in the page. Escape leaves that mode.";
+
+async function toggleCapture() {
+  if (document.fullscreenElement) {
+    await document.exitFullscreen();
+    return;
+  }
+  try {
+    await document.documentElement.requestFullscreen();
+    if (navigator.keyboard && navigator.keyboard.lock) {
+      const codes = ["MetaLeft", "MetaRight"];
+      for (let fn = 1; fn <= 12; fn += 1) codes.push("F" + fn);
+      await navigator.keyboard.lock(codes);
+    }
+    captureButton.textContent = "Capturing";
+    captureButton.setAttribute("aria-pressed", "true");
+  } catch (error) {
+    captureButton.textContent = "Capture keys";
+    captureButton.setAttribute("aria-pressed", "false");
+  }
+  pad.focus();
+}
+
+liveButton.addEventListener("click", function () { setMode("live"); });
+testButton.addEventListener("click", function () { setMode("test"); });
+clearButton.addEventListener("click", clearMemory);
+connectButton.addEventListener("click", connect);
+captureButton.addEventListener("click", toggleCapture);
+document.addEventListener("fullscreenchange", function () {
+  if (document.fullscreenElement) return;
+  if (navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
+  captureButton.textContent = "Capture keys";
+  captureButton.setAttribute("aria-pressed", "false");
+});
+window.addEventListener("keydown", onKeyDown, true);
+window.addEventListener("keyup", onKeyUp, true);
+window.addEventListener("blur", releaseTypingKeys);
+
+if (navigator.hid) {
+  navigator.hid.addEventListener("disconnect", function (event) {
+    if (hidDevice && event.device === hidDevice) {
+      keys.forEach(function (item) {
+        if (item.consumer) item.down = false;
+      });
+      hidDevice = null;
+      connectButton.textContent = "Connect";
+      hidNote = "keyboard disconnected";
+      paint();
+    }
+  });
+}
+
+pad.focus();
+paint();
+restoreDevice();
+
+  </script>
+</body>
+</html>
