@@ -26,6 +26,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
+string(REPLACE
+    "STM32F407xx_FLASH.ld"
+    "App/STM32F407xx_APP.ld"
+    CMAKE_EXE_LINKER_FLAGS
+    "${CMAKE_EXE_LINKER_FLAGS}")
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Enable CMake support for ASM and C languages
@@ -60,6 +65,8 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
+    USER_VECT_TAB_ADDRESS
+    VECT_TAB_OFFSET=0x10000
 )
 
 # Remove wrong libob.a library dependency when using cpp files

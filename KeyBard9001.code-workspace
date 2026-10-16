@@ -9,6 +9,10 @@
             "path": "01_Docs"
         },
         {
+            "name": "02_Bootloader",
+            "path": "02_Bootloader"
+        },
+        {
             "name": "Repo Top Level Files",
             "path": "."
         }
@@ -16,7 +20,8 @@
     "settings": {
         "files.exclude": {
             "00_DesignFiles": true,
-            "01_Docs": true
+            "01_Docs": true,
+            "02_Bootloader": true
         },
         "stm32cube-ide-build-cmake.ignoreCubeProjectDiscovery": true,
         "cmake.autoSelectActiveFolder": false,
