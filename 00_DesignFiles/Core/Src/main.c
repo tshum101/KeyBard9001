@@ -25,7 +25,9 @@
 #include "button.h"
 #include "dbg.h"
 #include "hid_keyboard.h"
+#include "led.h"
 #include "matrix.h"
+#include "vcp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -125,6 +127,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Button_Init(&btn1);
   Matrix_Init();
+  Led_Init();
   if (HAL_TIM_Base_Start_IT(&htim6) != HAL_OK)
   {
     Error_Handler();
@@ -163,6 +166,8 @@ int main(void)
       Matrix_FillConsumer(consumer);
       HidKeyboard_SendIfChanged(report);
       HidKeyboard_SendConsumerIfChanged(consumer);
+      Vcp_Poll();
+      Led_Poll();
     }
   }
   /* USER CODE END 3 */

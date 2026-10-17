@@ -4,8 +4,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-/* Matrix key press, release, and hold lines on USART1. Set to true to enable. */
+/* Matrix key press, release, and hold lines. Set to true to enable. */
 #define dbgKEYSTROKES true
+
+/* Each print ends with CR LF. While the COM port is up the line goes out
+   that port. Otherwise it goes out USART1. */
 
 void dbg_print_text(const char *text);
 void dbg_print1(const char *text, int32_t value);

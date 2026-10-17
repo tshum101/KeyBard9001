@@ -32,7 +32,7 @@ In Cube-generated `.c` and `.h` files, add code only between `USER CODE BEGIN` a
 
 ## Debug messages
 
-When asked to send a debug message or a log message, call the functions in `00_DesignFiles/App/` (`dbg.h` / `dbg.c`). Do not call `HAL_UART_Transmit` or `printf` for that. Each function sends on USART1 and ends with `\r\n`.
+When asked to send a debug message or a log message, call the functions in `00_DesignFiles/App/` (`dbg.h` / `dbg.c`). Do not call `HAL_UART_Transmit` or `printf` for that. Each function ends with `\r\n`. While the COM port is up the line goes out that port. Otherwise it goes out USART1.
 
 - `dbg_print_text(text)` sends the text only.
 - `dbg_print1(text, value)` sends the text and one `int32_t`, with no extra separator.

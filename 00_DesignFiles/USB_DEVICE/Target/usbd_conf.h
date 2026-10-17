@@ -63,7 +63,11 @@
   */
 
 /*---------- -----------*/
-#define USBD_MAX_NUM_INTERFACES     1U
+/* Interfaces 0..2 are keyboard, CDC comm, and CDC data.
+   USBD_StdItfReq accepts an interface only when its number is <= this value.
+   A CubeMX regenerate that restores 1 rejects the COM port data interface.
+   The same override is repeated at the bottom of this file. */
+#define USBD_MAX_NUM_INTERFACES     4U
 /*---------- -----------*/
 #define USBD_MAX_NUM_CONFIGURATION     1U
 /*---------- -----------*/
@@ -170,6 +174,11 @@ void USBD_static_free(void *p);
 #ifdef __cplusplus
 }
 #endif
+
+/* Repeated so a regenerate that restores the define above to 1 still
+   leaves the CDC data interface legal. */
+#undef USBD_MAX_NUM_INTERFACES
+#define USBD_MAX_NUM_INTERFACES 4U
 
 #endif /* __USBD_CONF__H__ */
 

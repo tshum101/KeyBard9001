@@ -93,17 +93,52 @@ button:disabled {
   cursor: default;
 }
 
-.layer {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #2a2a26;
-  color: #d9d3c6;
+.mode-test {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border: 1px dashed var(--seen);
+  border-radius: 10px;
+}
+
+button.clear {
+  padding: 6px 10px;
+  background: transparent;
+  color: #b7e0be;
+  border-color: var(--seen);
   font-size: 14px;
 }
 
-#status {
+button.clear:hover:not(:disabled) {
+  background: rgba(47, 158, 68, 0.18);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 12px 8px;
+  border: 1px solid #4a4a44;
+  border-radius: 8px;
+}
+
+.choice legend {
+  padding: 0 4px;
   color: #c8c3b8;
-  font-size: 14px;
+  font-size: 13px;
+}
+
+.choice label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.choice input {
+  margin: 0;
 }
 
 .stage {
@@ -111,18 +146,34 @@ button:disabled {
   padding-bottom: 8px;
 }
 
+.keyboard {
+  width: fit-content;
+}
+
 .board {
+  --inset: 14px;
   position: relative;
-  width: calc(20.5 * var(--u));
-  height: calc(6.6 * var(--u));
+  width: calc(20.5 * var(--u) + 2 * var(--inset));
+  height: calc(6.6 * var(--u) + 2 * var(--inset));
   background: var(--board);
   border-radius: 12px;
 }
 
+.layer {
+  margin-left: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #2a2a26;
+  color: #d9d3c6;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .key {
   position: absolute;
-  left: calc(var(--x) * var(--u));
-  top: calc(var(--y) * var(--u));
+  left: calc(var(--x) * var(--u) + var(--inset));
+  top: calc(var(--y) * var(--u) + var(--inset));
   width: calc(var(--w) * var(--u) - var(--gap));
   height: calc(var(--h) * var(--u) - var(--gap));
   display: flex;
@@ -184,6 +235,43 @@ p.legend {
   font-size: 14px;
 }
 
+.serial {
+  width: min(1066px, 100%);
+  margin-top: 18px;
+}
+
+.serial[hidden] {
+  display: none;
+}
+
+#serial-state {
+  margin: 0 0 6px;
+  color: #c8c3b8;
+  font-size: 14px;
+}
+
+#serial-log {
+  min-height: 140px;
+  margin-bottom: 8px;
+}
+
+.serial-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.serial-row input {
+  flex: 1 1 16rem;
+  min-width: 12rem;
+  padding: 8px 12px;
+  border: 1px solid #3a3a36;
+  border-radius: 8px;
+  background: #111;
+  color: var(--paper);
+  font: 16px/1.4 Consolas, "Cascadia Mono", monospace;
+}
+
 .swatch {
   display: inline-block;
   width: 16px;
@@ -197,6 +285,67 @@ p.legend {
 .swatch.held { background: var(--held); border-color: var(--held); }
 .swatch.seen { background: var(--seen); border-color: var(--seen); }
 .swatch.silent { background: #e6e2d8; border-style: dashed; }
+
+.panel {
+  width: min(1066px, 100%);
+  margin-top: 16px;
+  border: 1px solid #4a4a44;
+  border-radius: 10px;
+  background: #161614;
+}
+
+.panel summary {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.panel-body {
+  display: grid;
+  gap: 12px;
+  padding: 0 14px 14px;
+}
+
+.led-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.led-row span {
+  width: 6.5rem;
+  color: #c8c3b8;
+}
+
+.led-num {
+  width: 4.5rem;
+  padding: 6px 8px;
+  border: 1px solid #3a3a36;
+  border-radius: 8px;
+  background: #111;
+  color: var(--paper);
+  font: inherit;
+  text-align: right;
+}
+
+.led-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--paper);
+}
+
+.led-swatch {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #4a4a44;
+  border-radius: 6px;
+  background: #000;
+}
+
+.led-note {
+  margin: 0;
+  color: #c8c3b8;
+  font-size: 14px;
+}
 
 @media (max-width: 1100px) {
   :root { --u: 42px; }
@@ -218,32 +367,91 @@ p.legend {
   <textarea id="pad" rows="3" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Click here and type"></textarea>
 
   <div class="toolbar">
-    <button type="button" id="live" aria-pressed="true">Live Mode</button>
-    <button type="button" id="test" aria-pressed="false">Test Mode</button>
-    <button type="button" id="clear">Clear keys</button>
-    <button type="button" id="connect">Connect</button>
-    <button type="button" id="capture" aria-pressed="false">Capture keys</button>
-    <span id="layer" class="layer">Base layer</span>
-    <span id="status"></span>
+    <button type="button" id="live" aria-pressed="true" title="Keys light only while they are held">Live Mode</button>
+    <span class="mode-test">
+      <button type="button" id="test" aria-pressed="false" title="Keys stay lit after you press them, so you can see which ones you have tried">Test Mode</button>
+      <button type="button" id="clear" class="clear" title="Clear the keys remembered in Test Mode">Clear keys</button>
+    </span>
+    <fieldset class="choice">
+      <legend>Media/Calc</legend>
+      <label title="Connect mute, volume, and calculator so they light on the board"><input type="radio" name="media" id="media-on" value="on"> On</label>
+      <label title="Disconnect mute, volume, and calculator"><input type="radio" name="media" id="media-off" value="off" checked> Off</label>
+    </fieldset>
+    <fieldset class="choice">
+      <legend>COM</legend>
+      <label title="Turn on the USB serial port. Typing and the media keys stay on"><input type="radio" name="com" id="com-on" value="on"> On</label>
+      <label title="Turn off the USB serial port"><input type="radio" name="com" id="com-off" value="off" checked> Off</label>
+    </fieldset>
+    <fieldset class="choice">
+      <legend>Capture keys</legend>
+      <label title="Hold F1–F12 and the Windows key in this page. Escape turns this off"><input type="radio" name="capture" id="capture-on" value="on"> On</label>
+      <label title="Let the browser and Windows handle F1–F12 and the Windows key"><input type="radio" name="capture" id="capture-off" value="off" checked> Off</label>
+    </fieldset>
   </div>
 
   <div class="stage">
-    <div id="board" class="board"></div>
+    <div class="keyboard">
+      <div id="board" class="board"></div>
+    </div>
   </div>
 
   <p class="legend">
     <span class="swatch held"></span> held in Live Mode
     <span class="swatch seen"></span> seen in Test Mode
     <span class="swatch silent"></span> Fn and Keybard are not reported
+    <span id="layer" class="layer">Base layer</span>
   </p>
 
+  <details class="panel">
+    <summary>LEDs</summary>
+    <div class="panel-body">
+      <div class="led-row">
+        <button type="button" id="led-solid" aria-pressed="false" title="Light all 102 LEDs with the color below. Click again to turn them off">Solid color</button>
+        <span id="led-swatch" class="led-swatch" aria-hidden="true"></span>
+      </div>
+      <div class="led-row">
+        <span>Red</span>
+        <input id="led-r" type="range" min="0" max="255" value="255" aria-label="Red">
+        <input id="led-r-num" class="led-num" type="text" inputmode="numeric" spellcheck="false" autocomplete="off" value="255" aria-label="Red value">
+      </div>
+      <div class="led-row">
+        <span>Green</span>
+        <input id="led-g" type="range" min="0" max="255" value="255" aria-label="Green">
+        <input id="led-g-num" class="led-num" type="text" inputmode="numeric" spellcheck="false" autocomplete="off" value="255" aria-label="Green value">
+      </div>
+      <div class="led-row">
+        <span>Blue</span>
+        <input id="led-b" type="range" min="0" max="255" value="255" aria-label="Blue">
+        <input id="led-b-num" class="led-num" type="text" inputmode="numeric" spellcheck="false" autocomplete="off" value="255" aria-label="Blue value">
+      </div>
+      <div class="led-row">
+        <span>Brightness</span>
+        <input id="led-bri" type="range" min="0" max="100" value="0" title="0 is off. 100 is 40% of red, green, and blue" aria-label="Brightness">
+        <input id="led-bri-num" class="led-num" type="text" inputmode="numeric" spellcheck="false" autocomplete="off" value="0" aria-label="Brightness value" title="0 is off. 100 is 40% of red, green, and blue">
+      </div>
+      <p id="led-scaled" class="led-note"></p>
+      <p id="led-power" class="led-note"></p>
+      <p id="led-note" class="led-note"></p>
+    </div>
+  </details>
+
+  <section class="serial" id="serial-box" aria-label="Virtual COM port" hidden>
+    <label class="type-label" for="serial-log">Virtual COM port</label>
+    <p id="serial-state"></p>
+    <textarea id="serial-log" rows="8" readonly spellcheck="false" placeholder="Keyboard log lines show up here"></textarea>
+    <div class="serial-row">
+      <input id="serial-cmd" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Type a command and press Enter">
+      <button type="button" id="serial-send">Send</button>
+      <button type="button" id="serial-open">Open</button>
+      <button type="button" id="serial-clear">Clear</button>
+    </div>
+  </section>
+
   <script>
-const HID_FILTER = {
-  vendorId: 0x0483,
-  productId: 0x572b,
-  usagePage: 0x0c,
-  usage: 0x01
-};
+const HID_FILTERS = [
+  { vendorId: 0x0483, productId: 0x572b, usagePage: 0x0c, usage: 0x01 },
+  { vendorId: 0x0483, productId: 0x572c, usagePage: 0x0c, usage: 0x01 }
+];
 
 const keys = [];
 
@@ -434,15 +642,63 @@ const pad = document.getElementById("pad");
 const liveButton = document.getElementById("live");
 const testButton = document.getElementById("test");
 const clearButton = document.getElementById("clear");
-const connectButton = document.getElementById("connect");
-const captureButton = document.getElementById("capture");
+const solidButton = document.getElementById("led-solid");
+const ledR = document.getElementById("led-r");
+const ledG = document.getElementById("led-g");
+const ledB = document.getElementById("led-b");
+const ledBri = document.getElementById("led-bri");
+const ledRNum = document.getElementById("led-r-num");
+const ledGNum = document.getElementById("led-g-num");
+const ledBNum = document.getElementById("led-b-num");
+const ledBriNum = document.getElementById("led-bri-num");
+const LED_LEVEL_PERCENT = 40;
+const ledFields = [
+  { slider: ledR, box: ledRNum, max: 255 },
+  { slider: ledG, box: ledGNum, max: 255 },
+  { slider: ledB, box: ledBNum, max: 255 },
+  { slider: ledBri, box: ledBriNum, max: 100 }
+];
+const ledScaled = document.getElementById("led-scaled");
+const ledPower = document.getElementById("led-power");
+const ledNoteEl = document.getElementById("led-note");
+const ledSwatch = document.getElementById("led-swatch");
+const mediaOnRadio = document.getElementById("media-on");
+const mediaOffRadio = document.getElementById("media-off");
+const comOnRadio = document.getElementById("com-on");
+const comOffRadio = document.getElementById("com-off");
+const captureOnRadio = document.getElementById("capture-on");
+const captureOffRadio = document.getElementById("capture-off");
 const layerEl = document.getElementById("layer");
-const statusEl = document.getElementById("status");
 const hintEl = document.getElementById("hint");
+const serialBox = document.getElementById("serial-box");
+const serialLog = document.getElementById("serial-log");
+const serialCmd = document.getElementById("serial-cmd");
+const serialSend = document.getElementById("serial-send");
+const serialOpen = document.getElementById("serial-open");
+const serialClear = document.getElementById("serial-clear");
+const serialState = document.getElementById("serial-state");
 
 let mode = "live";
 let hidDevice = null;
+let solidOn = false;
+let ledBusy = false;
+let ledWantSend = false;
+let ledNote = "";
 let hidNote = "";
+let comOn = false;
+let comBusy = false;
+let mediaBusy = false;
+let captureOn = false;
+let captureBusy = false;
+let comOffNext = false;
+let serialPort = null;
+let serialReader = null;
+let serialNote = "";
+let serialWatch = 0;
+let serialOpening = false;
+let serialLastError = "";
+const COM_PID = 0x572c;
+const comAllowed = window.isSecureContext && (!!navigator.hid || !!navigator.serial);
 
 keys.forEach(function (item) {
   const el = document.createElement("div");
@@ -502,10 +758,101 @@ function paint() {
     item.el.classList.toggle("held", item.down && !item.silent);
     item.el.classList.toggle("seen", mode === "test" && remembered(item));
   });
-  const parts = [mode === "live" ? "Live Mode" : "Test Mode"];
-  if (hidDevice) parts.push("volume and calculator connected");
-  else parts.push(hidNote);
-  statusEl.textContent = parts.join(". ");
+  clearButton.disabled = mode !== "test";
+  const mediaOn = !!hidDevice;
+  const mediaAllowed = window.isSecureContext && !!navigator.hid;
+  if (!mediaBusy) {
+    mediaOnRadio.checked = mediaOn;
+    mediaOffRadio.checked = !mediaOn;
+  }
+  mediaOnRadio.disabled = !mediaAllowed || mediaBusy;
+  mediaOffRadio.disabled = !mediaAllowed || mediaBusy;
+  if (!comBusy) {
+    comOnRadio.checked = comOn;
+    comOffRadio.checked = !comOn;
+  }
+  comOnRadio.disabled = !comAllowed || comBusy;
+  comOffRadio.disabled = !comAllowed || comBusy;
+  if (!captureBusy) {
+    captureOnRadio.checked = captureOn;
+    captureOffRadio.checked = !captureOn;
+  }
+  captureOnRadio.disabled = captureBusy;
+  captureOffRadio.disabled = captureBusy;
+  paintSerial();
+  paintLed();
+}
+
+function ledChannel(value, brightness) {
+  return Math.floor(value * brightness * LED_LEVEL_PERCENT / 10000);
+}
+
+function paintLed() {
+  const red = Number(ledR.value);
+  const green = Number(ledG.value);
+  const blue = Number(ledB.value);
+  const brightness = Number(ledBri.value);
+  const scaledRed = ledChannel(red, brightness);
+  const scaledGreen = ledChannel(green, brightness);
+  const scaledBlue = ledChannel(blue, brightness);
+  const milliamps = Math.round(102 * 12 * (scaledRed + scaledGreen + scaledBlue) / 255);
+  ledFields.forEach(function (field) {
+    if (document.activeElement !== field.box) field.box.value = field.slider.value;
+  });
+  ledScaled.textContent = "Scaled color " + scaledRed + ", " + scaledGreen + ", " + scaledBlue + ". Brightness 100 is 40% of red, green, and blue.";
+  ledPower.textContent = (solidOn ? "Solid color is on. " : "Solid color is off, so the LEDs stay dark. ") + "This color is about " + milliamps + " mA. White at brightness 100 is about 1470 mA. The keyboard asks USB for 100 mA.";
+  ledSwatch.style.background = "rgb(" + scaledRed + ", " + scaledGreen + ", " + scaledBlue + ")";
+  solidButton.setAttribute("aria-pressed", solidOn ? "true" : "false");
+  solidButton.disabled = ledBusy || !window.isSecureContext || !navigator.hid;
+  ledNoteEl.textContent = ledNote;
+}
+
+function ledPayload(enabled) {
+  return new Uint8Array([
+    2,
+    enabled ? 1 : 0,
+    Number(ledR.value),
+    Number(ledG.value),
+    Number(ledB.value),
+    Number(ledBri.value)
+  ]);
+}
+
+function featureReportId(device) {
+  return device && device.productId === 0x572c ? 3 : 0;
+}
+
+async function flushLed() {
+  if (ledBusy) {
+    ledWantSend = true;
+    return;
+  }
+  ledBusy = true;
+  paintLed();
+  try {
+    let device = hidDevice;
+    if (!device) {
+      device = await openConsumer();
+      if (!device) {
+        solidOn = false;
+        ledNote = "Choose the keyboard to set the LEDs";
+        return;
+      }
+    }
+    do {
+      ledWantSend = false;
+      await device.sendFeatureReport(featureReportId(device), ledPayload(solidOn));
+      ledNote = "";
+    } while (ledWantSend);
+  } catch (error) {
+    if (!hidDevice) solidOn = false;
+    ledNote = error && error.name === "NotAllowedError"
+      ? "Choose the keyboard to set the LEDs"
+      : "LED command did not reach the keyboard";
+  } finally {
+    ledBusy = false;
+    paint();
+  }
 }
 
 function setMode(next) {
@@ -533,7 +880,7 @@ function releaseTypingKeys() {
 }
 
 function onKeyDown(event) {
-  if (SWALLOW[event.code]) event.preventDefault();
+  if (captureOn && SWALLOW[event.code]) event.preventDefault();
   const item = keyFromEvent(event);
   if (!item || item.silent) return;
   if (hidDevice && item.consumer) return;
@@ -544,7 +891,7 @@ function onKeyDown(event) {
 }
 
 function onKeyUp(event) {
-  if (SWALLOW[event.code]) event.preventDefault();
+  if (captureOn && SWALLOW[event.code]) event.preventDefault();
   const item = keyFromEvent(event);
   if (!item || item.silent) return;
   if (hidDevice && item.consumer) return;
@@ -565,7 +912,6 @@ function applyConsumer(value) {
 function watchDevice(device) {
   hidDevice = device;
   hidNote = "";
-  connectButton.textContent = "Connected";
   device.addEventListener("inputreport", function (event) {
     if (event.data.byteLength < 1) return;
     applyConsumer(event.data.getUint8(0));
@@ -578,10 +924,38 @@ async function openDevice(device) {
   watchDevice(device);
 }
 
+async function closeMedia() {
+  if (!hidDevice) return;
+  try {
+    await hidDevice.close();
+  } catch (error) {
+    /* The device may already be gone. */
+  }
+  keys.forEach(function (item) {
+    if (item.consumer) item.down = false;
+  });
+  hidDevice = null;
+  hidNote = "media buttons off";
+}
+
+async function setMedia(enabled) {
+  if (mediaBusy) return;
+  if (enabled === !!hidDevice) return;
+  mediaBusy = true;
+  paint();
+  try {
+    if (enabled) await connect();
+    else await closeMedia();
+  } finally {
+    mediaBusy = false;
+    paint();
+  }
+}
+
 async function connect() {
   if (!navigator.hid) return;
   try {
-    const devices = await navigator.hid.requestDevice({ filters: [HID_FILTER] });
+    const devices = await navigator.hid.requestDevice({ filters: HID_FILTERS });
     if (devices[0]) await openDevice(devices[0]);
     else {
       hidNote = "Connect canceled";
@@ -597,70 +971,509 @@ async function connect() {
 async function restoreDevice() {
   if (!navigator.hid) {
     hidNote = "this browser has no WebHID";
-    connectButton.disabled = true;
     paint();
     return;
   }
   if (!window.isSecureContext) {
     hidNote = "open this page from localhost to connect volume and calculator";
-    connectButton.disabled = true;
     paint();
     return;
   }
-  hidNote = "click Connect for mute, volume, and calculator";
-  const devices = await navigator.hid.getDevices();
-  const existing = devices.find(function (device) {
-    return device.vendorId === HID_FILTER.vendorId && device.productId === HID_FILTER.productId;
+  hidNote = "choose Media On for mute, volume, and calculator";
+  if (await attachGrantedConsumer()) return;
+  paint();
+}
+
+function isConsumerDevice(device) {
+  if (!device || device.vendorId !== 0x0483) return false;
+  if (device.productId !== 0x572b && device.productId !== 0x572c) return false;
+  if (!device.collections || device.collections.length === 0) return true;
+  return device.collections.some(function (collection) {
+    return collection.usagePage === 0x0c && collection.usage === 0x01;
   });
-  if (existing) {
+}
+
+async function attachGrantedConsumer() {
+  if (!navigator.hid || !window.isSecureContext) return false;
+  const want = comOn ? 0x572c : 0x572b;
+  if (hidDevice && hidDevice.productId === want && hidDevice.opened) return true;
+  const devices = await navigator.hid.getDevices();
+  for (let index = 0; index < devices.length; index += 1) {
+    const device = devices[index];
+    if (!isConsumerDevice(device) || device.productId !== want) continue;
     try {
-      await openDevice(existing);
+      await openDevice(device);
+      return true;
     } catch (error) {
-      hidNote = "click Connect for mute, volume, and calculator";
-      paint();
+      /* That grant is not the device plugged in now. */
     }
-  } else {
-    paint();
+  }
+  return false;
+}
+
+let consumerWatch = 0;
+
+async function watchConsumer() {
+  const token = ++consumerWatch;
+  const wantOn = comOn;
+  for (let index = 0; index < 40; index += 1) {
+    if (token !== consumerWatch || comOn !== wantOn) return;
+    if (await attachGrantedConsumer()) return;
+    await delay(250);
   }
 }
 
-hintEl.textContent = "Open this file in Chrome. Shift shows the second legend, including the numpad. Capture keys holds F1–F12 and the Windows key in the page. Escape leaves that mode.";
+hintEl.textContent = "Open this file in Chrome. Shift shows the second legend, including the numpad. F1–F12 and the Windows key stay with the browser until Capture keys is On. Escape turns capture off. COM port keeps the keyboard and adds a USB serial device. Serve this page from localhost to switch it. After the COM port is on, its box reads the keyboard log. Type a line there and press Enter to send it.";
 
-async function toggleCapture() {
-  if (document.fullscreenElement) {
-    await document.exitFullscreen();
+async function setCapture(enabled) {
+  if (captureBusy || enabled === captureOn) return;
+  captureBusy = true;
+  paint();
+  try {
+    if (!enabled) {
+      captureOn = false;
+      if (navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
+      if (document.fullscreenElement) await document.exitFullscreen();
+    } else {
+      await document.documentElement.requestFullscreen();
+      if (navigator.keyboard && navigator.keyboard.lock) {
+        const codes = ["MetaLeft", "MetaRight"];
+        for (let fn = 1; fn <= 12; fn += 1) codes.push("F" + fn);
+        await navigator.keyboard.lock(codes);
+      }
+      captureOn = true;
+    }
+  } catch (error) {
+    captureOn = false;
+    if (navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
+    if (document.fullscreenElement) {
+      try { await document.exitFullscreen(); } catch (exitError) { /* Already left fullscreen. */ }
+    }
+  } finally {
+    captureBusy = false;
+    paint();
+    pad.focus();
+  }
+}
+
+async function openConsumer() {
+  if (hidDevice) return hidDevice;
+  const devices = await navigator.hid.requestDevice({ filters: HID_FILTERS });
+  if (!devices[0]) return null;
+  await openDevice(devices[0]);
+  return hidDevice;
+}
+
+async function turnComOn() {
+  if (!navigator.hid) {
+    hidNote = "this browser has no WebHID";
+    return false;
+  }
+  const device = hidDevice || await openConsumer();
+  if (!device) return false;
+  await device.sendFeatureReport(featureReportId(device), new Uint8Array([1, 0, 0, 0, 0, 0]));
+  comOn = true;
+  comOffNext = false;
+  hidNote = "COM port on. Typing, volume, mute, and calculator stay on";
+  return true;
+}
+
+function isComPort(port) {
+  if (!port || !port.getInfo) return false;
+  const info = port.getInfo();
+  return info.usbVendorId === 0x0483 && info.usbProductId === COM_PID;
+}
+
+function serialVidPid() {
+  if (!serialPort || !serialPort.getInfo) return "";
+  const info = serialPort.getInfo();
+  const vid = (info.usbVendorId || 0).toString(16).padStart(4, "0");
+  const pid = (info.usbProductId || 0).toString(16).padStart(4, "0");
+  return vid + ":" + pid;
+}
+
+function serialFailText(error) {
+  const message = error && error.message ? String(error.message) : "";
+  if (/failed to open|access|denied|busy|network/i.test(message)) {
+    return "COM port is in use. Close the VS Code serial monitor and click Open";
+  }
+  return message || "Open canceled";
+}
+
+function paintSerial() {
+  const open = !!(serialPort && serialPort.readable);
+  let state = "COM port is off";
+  if (!comAllowed) state = "COM port needs localhost";
+  else if (comBusy) state = "COM port reconnecting";
+  else if (open) state = "Open " + serialVidPid() + ". Type a command and press Enter.";
+  else if (serialNote) state = serialNote;
+  else if (comOn) state = "COM port is on. Click Open and choose the serial device";
+  serialBox.hidden = !comOn;
+  serialState.textContent = state;
+  serialOpen.disabled = !comAllowed || comBusy || open || serialOpening;
+  serialSend.disabled = !open || comBusy;
+  serialCmd.disabled = !open || comBusy;
+}
+
+function appendSerial(text) {
+  serialLog.value += text;
+  if (serialLog.value.length > 64000) {
+    serialLog.value = serialLog.value.slice(-48000);
+  }
+  serialLog.scrollTop = serialLog.scrollHeight;
+}
+
+function dropSerial(reason) {
+  const had = !!serialPort;
+  serialPort = null;
+  serialReader = null;
+  if (reason) serialNote = reason;
+  if (!had) {
+    paintSerial();
     return;
   }
-  try {
-    await document.documentElement.requestFullscreen();
-    if (navigator.keyboard && navigator.keyboard.lock) {
-      const codes = ["MetaLeft", "MetaRight"];
-      for (let fn = 1; fn <= 12; fn += 1) codes.push("F" + fn);
-      await navigator.keyboard.lock(codes);
-    }
-    captureButton.textContent = "Capturing";
-    captureButton.setAttribute("aria-pressed", "true");
-  } catch (error) {
-    captureButton.textContent = "Capture keys";
-    captureButton.setAttribute("aria-pressed", "false");
+  paint();
+}
+
+async function openSerial(port) {
+  if (!port.readable) {
+    await port.open({ baudRate: 115200, bufferSize: 4096, flowControl: "none" });
   }
+  /* Windows does not deliver CDC bytes until DTR is on. VS Code turns it on;
+     Web Serial does not. */
+  await port.setSignals({ dataTerminalReady: true, requestToSend: true });
+  return port;
+}
+
+async function findGrantedPort() {
+  if (!navigator.serial) return null;
+  const ports = await navigator.serial.getPorts();
+  return ports.find(isComPort) || null;
+}
+
+async function comPort() {
+  if (!navigator.serial) return null;
+  const existing = await findGrantedPort();
+  if (existing) {
+    try {
+      return await openSerial(existing);
+    } catch (error) {
+      /* The saved port is not the one plugged in now. */
+    }
+  }
+  const picked = await navigator.serial.requestPort({
+    filters: [{ usbVendorId: 0x0483, usbProductId: COM_PID }]
+  });
+  if (!picked) return null;
+  return openSerial(picked);
+}
+
+async function startSerialRead() {
+  if (serialReader || !serialPort || !serialPort.readable) return;
+  const port = serialPort;
+  let reader;
+  try {
+    reader = port.readable.getReader();
+  } catch (error) {
+    return;
+  }
+  serialReader = reader;
+  appendSerial("[COM port open]\n");
+  const decoder = new TextDecoder();
+  let stopNote = "";
+  try {
+    while (serialPort === port) {
+      const result = await reader.read();
+      if (serialPort !== port) break;
+      if (result.done) break;
+      if (result.value && result.value.byteLength) {
+        appendSerial(decoder.decode(result.value, { stream: true }));
+      }
+    }
+  } catch (error) {
+    stopNote = "Serial read stopped. Close the VS Code serial monitor and click Open";
+    if (serialPort === port) appendSerial("\n[" + stopNote + "]\n");
+  } finally {
+    try { reader.releaseLock(); } catch (error) { /* The device may already be gone. */ }
+    if (serialReader === reader) serialReader = null;
+    if (serialPort === port) dropSerial(stopNote || "COM port closed");
+  }
+}
+
+async function adoptPort(port) {
+  if (!port || serialPort || serialOpening) return false;
+  serialOpening = true;
+  try {
+    await openSerial(port);
+    if (serialPort) return true;
+    serialPort = port;
+    serialNote = "";
+    comOn = true;
+    comOffNext = false;
+    hidNote = "COM port on. Typing, volume, mute, and calculator stay on";
+    paint();
+    startSerialRead();
+    return true;
+  } catch (error) {
+    serialLastError = serialFailText(error);
+    return false;
+  } finally {
+    serialOpening = false;
+    paintSerial();
+  }
+}
+
+function delay(ms) {
+  return new Promise(function (resolve) { setTimeout(resolve, ms); });
+}
+
+async function watchGrantedSerial() {
+  const token = ++serialWatch;
+  serialNote = "Waiting for the COM port";
+  paintSerial();
+  try {
+    for (let i = 0; i < 40; i += 1) {
+      if (token !== serialWatch || serialPort) return;
+      const found = await findGrantedPort();
+      if (token !== serialWatch || serialPort) return;
+      if (found) {
+        if (await adoptPort(found)) return;
+      }
+      await delay(250);
+    }
+    if (token !== serialWatch || serialPort) return;
+    serialNote = serialLastError || "Click Open and choose the serial device";
+    paintSerial();
+  } catch (error) {
+    if (token !== serialWatch || serialPort) return;
+    serialNote = serialFailText(error);
+    paintSerial();
+  }
+}
+
+async function openComBox() {
+  if (!navigator.serial || !window.isSecureContext) {
+    serialNote = "Serve this page from localhost to open the COM port";
+    paintSerial();
+    return;
+  }
+  if ((serialPort && serialPort.readable) || serialOpening) {
+    if (serialPort && serialPort.readable) serialCmd.focus();
+    return;
+  }
+  serialOpening = true;
+  serialWatch += 1;
+  try {
+    const port = await comPort();
+    if (!port || serialPort) return;
+    serialPort = port;
+    serialNote = "";
+    comOn = true;
+    comOffNext = false;
+    hidNote = "COM port on. Typing, volume, mute, and calculator stay on";
+    paint();
+    startSerialRead();
+    serialCmd.focus();
+  } catch (error) {
+    serialNote = serialFailText(error);
+    appendSerial("[" + serialNote + "]\n");
+    paintSerial();
+  } finally {
+    serialOpening = false;
+    paintSerial();
+  }
+}
+
+async function sendSerialLine() {
+  const text = serialCmd.value.trim();
+  if (!text) return;
+  if (!serialPort || !serialPort.writable) {
+    serialNote = "Open the COM port first";
+    paintSerial();
+    return;
+  }
+  const turningOff = text === "KB9 VCP 0";
+  const writer = serialPort.writable.getWriter();
+  try {
+    await writer.write(new TextEncoder().encode(text + "\n"));
+    appendSerial("> " + text + "\n");
+    serialCmd.value = "";
+    if (turningOff) {
+      serialWatch += 1;
+      comOn = false;
+      comOffNext = false;
+      hidNote = "COM port off";
+      serialNote = "COM port off";
+      paint();
+    }
+  } catch (error) {
+    appendSerial("> " + text + "\n");
+    if (turningOff) {
+      serialWatch += 1;
+      comOn = false;
+      comOffNext = false;
+      hidNote = "COM port off";
+      serialNote = "COM port off";
+      paint();
+    } else {
+      serialNote = "Send failed";
+      paintSerial();
+    }
+  } finally {
+    try { writer.releaseLock(); } catch (error) { /* The port can drop as soon as the command lands. */ }
+  }
+  if (serialCmd.disabled === false) serialCmd.focus();
+}
+
+async function turnComOff() {
+  if (!navigator.serial) {
+    hidNote = "this browser has no Web Serial";
+    return false;
+  }
+  serialWatch += 1;
+  const port = serialPort || await comPort();
+  if (!port) return false;
+  const writer = port.writable.getWriter();
+  try {
+    await writer.write(new TextEncoder().encode("KB9 VCP 0\n"));
+  } finally {
+    try { writer.releaseLock(); } catch (error) { /* The port can drop as soon as the command lands. */ }
+  }
+  comOn = false;
+  comOffNext = false;
+  hidNote = "COM port off";
+  serialNote = "COM port off";
+  return true;
+}
+
+async function setCom(enabled) {
+  if (comBusy) return;
+  if (enabled && comOn && !comOffNext) return;
+  comBusy = true;
+  paint();
+  try {
+    if (!enabled) await turnComOff();
+    else {
+      const turnedOn = await turnComOn();
+      if (!turnedOn) {
+        comOffNext = true;
+        hidNote = "No consumer HID. If the COM port is already on, choose COM Off and pick the serial device";
+      } else {
+        watchGrantedSerial();
+      }
+    }
+  } catch (error) {
+    if (!enabled || comOn || comOffNext) {
+      comOffNext = false;
+      hidNote = "COM port switch canceled";
+    } else {
+      comOffNext = true;
+      hidNote = "COM switch did not finish. Choose COM Off and pick the serial device if it is already on";
+    }
+  }
+  comBusy = false;
+  paint();
+  watchConsumer();
   pad.focus();
 }
 
+solidButton.addEventListener("click", function () {
+  if (solidButton.disabled) return;
+  solidOn = !solidOn;
+  paintLed();
+  flushLed();
+});
+ledFields.forEach(function (field) {
+  field.slider.addEventListener("input", function () {
+    paintLed();
+    if (solidOn) flushLed();
+  });
+  field.box.addEventListener("input", function () {
+    const text = field.box.value.trim();
+    if (!/^\d+$/.test(text)) return;
+    const clamped = Math.max(0, Math.min(field.max, Number(text)));
+    field.slider.value = String(clamped);
+    if (clamped !== Number(text)) field.box.value = String(clamped);
+    paintLed();
+    if (solidOn) flushLed();
+  });
+  field.box.addEventListener("change", function () {
+    const text = field.box.value.trim();
+    const parsed = /^\d+$/.test(text) ? Number(text) : Number(field.slider.value);
+    const clamped = Math.max(0, Math.min(field.max, parsed));
+    const changed = String(clamped) !== field.slider.value;
+    field.slider.value = String(clamped);
+    field.box.value = String(clamped);
+    paintLed();
+    if (changed && solidOn) flushLed();
+  });
+  field.box.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    field.box.blur();
+  });
+});
 liveButton.addEventListener("click", function () { setMode("live"); });
 testButton.addEventListener("click", function () { setMode("test"); });
 clearButton.addEventListener("click", clearMemory);
-connectButton.addEventListener("click", connect);
-captureButton.addEventListener("click", toggleCapture);
+mediaOnRadio.addEventListener("change", function () {
+  if (mediaOnRadio.checked) setMedia(true);
+});
+mediaOffRadio.addEventListener("change", function () {
+  if (mediaOffRadio.checked) setMedia(false);
+});
+comOnRadio.addEventListener("change", function () {
+  if (comOnRadio.checked) setCom(true);
+});
+comOffRadio.addEventListener("change", function () {
+  if (comOffRadio.checked) setCom(false);
+});
+comOffRadio.addEventListener("click", function () {
+  if (comOffNext) setCom(false);
+});
+serialSend.addEventListener("click", sendSerialLine);
+serialOpen.addEventListener("click", openComBox);
+serialClear.addEventListener("click", function () {
+  serialLog.value = "";
+  if (serialCmd.disabled === false) serialCmd.focus();
+});
+serialCmd.addEventListener("keydown", function (event) {
+  if (event.key !== "Enter") return;
+  event.preventDefault();
+  sendSerialLine();
+});
+captureOnRadio.addEventListener("change", function () {
+  if (captureOnRadio.checked) setCapture(true);
+});
+captureOffRadio.addEventListener("change", function () {
+  if (captureOffRadio.checked) setCapture(false);
+});
 document.addEventListener("fullscreenchange", function () {
   if (document.fullscreenElement) return;
+  captureOn = false;
   if (navigator.keyboard && navigator.keyboard.unlock) navigator.keyboard.unlock();
-  captureButton.textContent = "Capture keys";
-  captureButton.setAttribute("aria-pressed", "false");
+  paint();
 });
 window.addEventListener("keydown", onKeyDown, true);
 window.addEventListener("keyup", onKeyUp, true);
 window.addEventListener("blur", releaseTypingKeys);
+
+if (navigator.serial) {
+  navigator.serial.addEventListener("connect", function (event) {
+    const port = event.port || event.target;
+    if (!isComPort(port) || serialPort) return;
+    adoptPort(port);
+  });
+  navigator.serial.addEventListener("disconnect", function (event) {
+    const port = event.port || event.target;
+    if (!serialPort) return;
+    if (port && port !== serialPort) return;
+    comOn = false;
+    comOffNext = false;
+    hidNote = "COM port off";
+    dropSerial("COM port closed");
+  });
+}
 
 if (navigator.hid) {
   navigator.hid.addEventListener("disconnect", function (event) {
@@ -669,8 +1482,7 @@ if (navigator.hid) {
         if (item.consumer) item.down = false;
       });
       hidDevice = null;
-      connectButton.textContent = "Connect";
-      hidNote = "keyboard disconnected";
+      hidNote = comOn ? "COM port on. Typing, volume, mute, and calculator stay on" : "keyboard disconnected";
       paint();
     }
   });

@@ -27,6 +27,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "hid_keyboard.h"
+#include "vcp.h"
 /* Redirect the generated USBD_RegisterClass(&USBD_HID) to the keyboard class. */
 #define USBD_HID USBD_HID_Keyboard
 /* USER CODE END Includes */
@@ -65,7 +66,7 @@ USBD_HandleTypeDef hUsbDeviceFS;
 void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
-
+  Vcp_Init();
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
   /* Init Device Library, add supported class and start the library. */

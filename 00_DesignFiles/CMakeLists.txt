@@ -54,6 +54,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     App/Src/dbg.c
     App/Src/matrix.c
     App/Src/hid_keyboard.c
+    App/Src/led.c
+    App/Src/vcp.c
 )
 
 # Add include paths
